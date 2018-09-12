@@ -1,0 +1,290 @@
+\documentclass[pagesize=auto]{scrartcl}
+
+\usepackage{fixltx2e}
+\usepackage{etex}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\newcommand*{\mail}[1]{\href{mailto:#1}{\texttt{#1}}}
+\newcommand*{\pkg}[1]{\textsf{#1}}
+\newcommand*{\cs}[1]{\texttt{\textbackslash#1}}
+\makeatletter
+\newcommand*{\cmd}[1]{\cs{\expandafter\@gobble\string#1}}
+\makeatother
+\newcommand*{\env}[1]{\texttt{#1}}
+\newcommand*{\meta}[1]{\textlangle\textsl{#1}\textrangle}
+\newcommand*{\marg}[1]{\texttt{\{}\meta{#1}\texttt{\}}}
+\newcommand*{\oarg}[1]{\texttt{[}\meta{#1}\texttt{]}}
+
+\addtokomafont{title}{\rmfamily}
+
+\title{The \pkg{endnotes} package}
+\author{John Lavagnino\thanks{Centre for Computing in the Humanities, King's College London}~~(\mail{John.Lavagnino@kcl.ac.uk})}
+\date{15 January 2003}
+
+
+\begin{document}
+
+\maketitle
+
+\noindent
+Based on the \textsc{footnotes} section of
+\texttt{LATEX.TEX} (version~2.09 -- release of 19 April 1986), with
+``\texttt{footnote}'' changed to ``\texttt{endnote}'' and ``\texttt{fn}'' changed to ``\texttt{en}'' (where
+appropriate), with all the \env{minipage} stuff pulled out, and with
+some small changes for the different operation of endnotes.
+Subsequently updated to follow the code for
+\LaTeXe\ \textlangle 2000/06/01\textrangle.
+
+Uses an extra external file, with \texttt{.ent} extension, to hold the
+text of the endnotes.  This may be deleted after the run; a new
+version is generated each time---it doesn't require information
+collected from the previous run.
+
+This code does not obey \cmd{\nofiles}.  Perhaps it should.
+
+\bigskip
+
+To turn all the footnotes in your documents into endnotes, say
+%
+\begin{verbatim}
+\let\footnote=\endnote
+\end{verbatim}
+%
+in your preamble, and then add something like
+%
+\begin{verbatim}
+\newpage
+\begingroup
+\parindent 0pt
+\parskip 2ex
+\def\enotesize{\normalsize}
+\theendnotes
+\endgroup
+\end{verbatim}
+%
+as the last thing in your document.  (But \cmd{\theendnotes} all
+by itself will work.)
+
+
+\section{Change log}
+
+\renewcommand*{\labelenumi}{\theenumi)}
+
+\begin{labeling}[~--]{DW}
+\item[JL] Modified to include \cmd{\addtoendnotes}.  JL, 10/22/89.
+
+\item[JK] Modification by Jörg Knappen 25.\,2.\,1991:
+
+  Introduced \cmd{\notesname} in the spirit of international \LaTeX.
+  \cmd{\notesname} is set per default to be \verb+{Notes}+, but can easily
+  be redifined, e.\,g.\ for german language\\
+  \verb+\renewcommand{\notesname}{Anmerkungen}+
+
+\item[DW] Modification by Dominik Wujastyk, London, 19 September 1991:
+  
+  Moved the line\\
+  \verb+\edef\@currentlabel{\csname p@endnote\endcsname\@theenmark}+\\
+  out of the definition of \cmd{\@endnotetext} and into the definition
+  of \cmd{\@doanenote} so that \cmd{\label} and \cmd{\ref} commands work correctly in
+  endnotes.  Otherwise, the \cmd{\label} just pointed to the last section
+  heading (or whatever) preceding the \cmd{\theendnotes} command.
+
+\item[JL] Revised documentation and macros.  24 Sept 1991.
+
+\item[\null]
+  \begingroup
+  \setlength{\leftmarginii}{25mm}%
+  \begin{enumerate}
+  \item[\rlap{\hspace{-\labelwidth}modified by \texttt{-\null-bg} (B.\,Gaulle) 09/14/94 for:}]
+  \item replace \verb+»+ (why a 8bit char here?) by \verb+^+ as a default.
+  \item force \cmd{\catcode} of \verb+>+ to be 12 (implied by \cmd{\@doanenote}).
+  \item[\rlap{\hspace{-\labelwidth}\phantom{modified} by \texttt{-\null-bg} again 03/22/95 for:}]
+  \item reseting appropriate \texttt{catcode} of \verb+>+ in case it were
+    used as an active char before \cmd{\@endanenote} (was
+    pointed by Ch.\ Pallier).
+  \end{enumerate}
+  \endgroup
+  
+\item[JL] John Lavagnino, 12 January 2003: a number of small updates:
+  
+  Incorporate change suggested by Frank Mittelbach to
+  \cmd{\enoteheading}, so that first note has paragraph indentation.
+  Frank's note:
+  %
+  \begin{quote}
+    the idea of this code is to fix the problem that without it
+    the first endnote after the heading will not be indented thus looking
+    somewhat strange. Problem however is that since there is no
+    indentation \verb+\leavemode\par+ will make an absolutely empty pargraph so
+    that no baseline calculation is done. therefore \verb+\vskip-\baselineskip+
+    will put the first endnote directly below the heading without the
+    usual spaccing. using \cmd{\mbox} insead will cure this defect.
+  \end{quote}
+  
+  Also incorporated Frank's suggestion to define
+  \cmd{\makeenmark} and \cmd{\theenmark}, so that users can change more of the
+  layout without using \cmd{\makeatletter}.  \cmd{\makeenmark} defaults to
+  \cmd{\@makeenmark}, so old code is still supported; and \cmd{\theenmark} is
+  just syntactic sugar for \cmd{\@theenmark}, which is still the real
+  value (and shouldn't be directly modified by user code).
+
+  Definition of \cmd{\ETC}.\ also dropped: surely nobody is still
+  using \TeX~2.992.  (If you are, you need to upgrade it or
+  endnotes longer than 1000~characters will be truncated.)
+  
+  Update much of the code to track the current \LaTeXe\ code more
+  closely. Clean up \cmd{\theendnotes}.
+
+\item[JL] John Lavagnino, 15 January 2003: fix my garbled version of
+  Frank's updates.
+
+\end{labeling}
+
+
+\section{Endnote commands}
+
+\addtokomafont{labelinglabel}{\small}
+
+\begin{labeling}[~:]{\cmd{\endnotetext}\oarg{num}\marg{text}}
+  \item[\cmd{\endnote}\marg{note}] User command to insert a endnote.
+
+  \item[\cmd{\endnote}\oarg{num}\marg{note}] User command to insert a endnote numbered
+    \meta{num}, where \meta{num} is a number -- 1, 2,
+    etc.  For example, if endnotes are numbered
+    *, **, etc. within pages, then  \verb+\endnote[2]{...}+
+    produces endnote `**'.  This command does  not
+    step the endnote counter.
+
+  \item[\cmd{\endnotemark}\oarg{num}] Command to produce just the endnote mark in
+    the text, but no endnote.  With no argument,
+    it steps the endnote counter before  generating
+    the mark.
+
+  \item[\cmd{\endnotetext}\oarg{num}\marg{text}] Command to produce the endnote but no
+    mark.  \cmd{\endnote} is equivalent to
+    \cmd{\endnotemark}\cmd{\endnotetext}.
+
+  \item[\cmd{\addtoendnotes}\marg{text}] Command to add text or commands to current
+    endnotes file: for inserting headings,
+    pagebreaks, and the like into endnotes
+    sections.  \meta{text} a moving argument:
+    \cmd{\protect} required for fragile commands.
+    
+\end{labeling}
+
+
+\section{Endnote user commands}
+
+Endnotes use the following parameters, similar to those relating
+to footnotes:
+%
+\begin{labeling}[~:]{\cmd{\@makeentext}\marg{note}}
+  \item[\cmd{\enotesize}] Size-changing command for endnotes.
+
+  \item[\cmd{\theendnote}] In usual \LaTeX\ style, produces the endnote number.
+
+  \item[\cmd{\theenmark}] Holds the current endnote's mark---e.\,g., \dag\ or `1' or `a'.
+    (You don't want to set this yourself, as it comes
+    either from the autonumbering of notes or from
+    the optional argument to \cmd{\endnote}. But you'll need
+    to use it if you define your own \cmd{\makeenmark}.)
+
+  \item[\cmd{\makeenmark}] A macro to generate the endnote marker from  \cmd{\theenmark}.
+    The default definition is \verb+\hbox{$^\theenmark$}+.
+
+  \item[\cmd{\@makeentext}\marg{note}]
+    Must produce the actual endnote, using \cmd{\theenmark} as the mark
+    of the endnote and \meta{note} as the text.  It is called when effectively
+    inside a \cmd{\parbox}, with $\cmd{\hsize} = \cmd{\columnwidth}$.  For example, it might
+    be as simple as
+    \verb*+$^{\theenmark}$ +\meta{note}
+    
+\end{labeling}
+
+
+\pagebreak[2]
+
+\section{Endnote pseudocode}
+
+\begin{verbatim}
+\endnote{NOTE}  ==
+ BEGIN
+   \stepcounter{endnote}
+   \@theenmark :=G eval (\theendnote)
+   \@endnotemark
+   \@endnotetext{NOTE}
+ END
+
+\endnote[NUM]{NOTE} ==
+ BEGIN
+   begingroup
+      counter endnote :=L NUM
+      \@theenmark :=G eval (\theendnote)
+   endgroup
+   \@endnotemark
+   \@endnotetext{NOTE}
+ END
+
+\@endnotetext{NOTE} ==
+ BEGIN
+   write to \@enotes file: "\@doanenote{ENDNOTE MARK}"
+   begingroup
+      \next := NOTE
+      set \newlinechar for \write to \space
+      write to \@enotes file: \meaning\next
+              (that is, "macro:->NOTE)
+   endgroup
+ END
+
+\addtoendnotes{TEXT} ==
+ BEGIN
+   open endnotes file if not already open
+   begingroup
+      let \protect to \string
+      set \newlinechar for \write to \space
+      write TEXT to \@enotes file
+   endgroup
+ END
+
+\endnotemark      ==
+ BEGIN \stepcounter{endnote}
+       \@theenmark :=G eval(\theendnote)
+       \@endnotemark
+ END
+
+\endnotemark[NUM] ==
+  BEGIN
+      begingroup
+        endnote counter :=L NUM
+       \@theenmark :=G eval(\theendnote)
+      endgroup
+      \@endnotemark
+  END
+
+\@endnotemark ==
+  BEGIN
+   \leavevmode
+   IF hmode THEN \@x@sf := \the\spacefactor FI
+   \makeenmark          % put number in main text
+   IF hmode THEN \spacefactor := \@x@sf FI
+  END
+
+\endnotetext      ==
+   BEGIN \@theenmark :=G eval (\theendnote)
+         \@endnotetext
+   END
+
+\endnotetext[NUM] ==
+   BEGIN begingroup  counter endnote :=L NUM
+                     \@theenmark :=G eval (\theendnote)
+         endgroup
+         \@endnotetext
+   END
+\end{verbatim}
+
+\end{document}
