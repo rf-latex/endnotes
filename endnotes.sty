@@ -283,6 +283,7 @@
 
 \newwrite\@enotes
 \newif\if@enotesopen \global\@enotesopenfalse
+\newif\if@haveenotes \global\@haveenotesfalse
 
 \def\@openenotes{\immediate\openout\@enotes=\jobname.ent\relax
       \global\@enotesopentrue}
@@ -296,6 +297,7 @@
 % of the lines wind up being quite short.
 
 \long\def\@endnotetext#1{%
+     \global\@haveenotestrue
      \if@enotesopen \else \@openenotes \fi
      \immediate\write\@enotes{\@doanenote{\@theenmark}}%
      \begingroup
@@ -309,12 +311,23 @@
 % have, requiring the use of \protect for fragile commands.
 
 \long\def\addtoendnotes#1{%
+     \global\@haveenotestrue
      \if@enotesopen \else \@openenotes \fi
      \begingroup
         \newlinechar='40
         \let\protect\string
         \immediate\write\@enotes{#1}%
      \endgroup}
+
+% Check at document end if endnotes have been inserted;
+% if not, assure the *.ent file is cleared if it exists.
+\AtEndDocument{%
+     \if@haveenotes\else
+         \IfFileExists{\jobname.ent}{
+            \if@enotesopen\else\@openenotes\fi
+            \addtoendnotes{}}{}
+     \fi
+}
 
 %  End of unique endnote code
 
