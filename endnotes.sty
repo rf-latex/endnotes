@@ -411,7 +411,9 @@
     \def\@endanenote{\par\endgroup}%
     \enoteheading
     \enotesize
-    \input{\jobname.ent}%
+    \InputIfFileExists{\jobname.ent}{}{%
+       \PackageWarning{endnotes}{No endnotes found (file \jobname.ent does not exist)!}
+    }%
   \endgroup}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
