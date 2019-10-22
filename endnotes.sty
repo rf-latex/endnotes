@@ -7,6 +7,7 @@
 %  Date of this version: 15 January 2003.
 %
 %% Copyright 2002 John Lavagnino
+%% Copyright 2019 LaTeX3 Project
 %%
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.2
@@ -113,6 +114,9 @@
 % John Lavagnino, 15 January 2003: fix my garbled version of
 % Frank's updates.
 %
+%
+% Jürgen Spitzmüller 2019-08-17: just warn if \verb|\theendnotes| is
+% used, but noendnotes have been inserted yet.
 %
 %       ****************************************
 %       *        ENDNOTE COMMANDS              *
@@ -253,6 +257,8 @@
 %       *           ENDNOTE MACROS             *
 %       ****************************************
 %
+
+\ProvidesPackage{endnotes}[2019-10-22 endnotes package]
 
 \@definecounter{endnote}
 \def\theendnote{\@arabic\c@endnote}
@@ -412,7 +418,7 @@
     \enoteheading
     \enotesize
     \InputIfFileExists{\jobname.ent}{}{%
-       \PackageWarning{endnotes}{No endnotes found (file \jobname.ent does not exist)!}
+       \PackageWarning{endnotes}{No endnotes found (file \jobname.ent does not exist)\MessageBreak}
     }%
   \endgroup}
 
