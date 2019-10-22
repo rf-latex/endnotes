@@ -1,0 +1,16 @@
+\documentclass{article}
+
+\input{regression-test}
+
+
+\usepackage{endnotes}
+
+\begin{document}
+
+some text
+
+\START
+
+% This should not generate an error
+\TEST{no notes test}{\theendnotes}
+\end{document}
