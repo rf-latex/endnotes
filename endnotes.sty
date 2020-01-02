@@ -4,10 +4,10 @@
 %       *              ENDNOTES                *
 %       ****************************************
 %
-%  Date of this version: 15 January 2003.
+%  Date of this version: 02 January 2020.
 %
 %% Copyright 2002 John Lavagnino
-%% Copyright 2019 LaTeX3 Project
+%% Copyright 2019-2020 LaTeX3 Project
 %%
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.2
@@ -117,6 +117,8 @@
 %
 % Jürgen Spitzmüller 2019-08-17: just warn if \verb|\theendnotes| is
 % used, but noendnotes have been inserted yet.
+%
+% Jürgen Spitzmüller 2020-01-02: ensure .ent file is cleared.
 %
 %       ****************************************
 %       *        ENDNOTE COMMANDS              *
@@ -258,7 +260,7 @@
 %       ****************************************
 %
 
-\ProvidesPackage{endnotes}[2019-10-22 endnotes package]
+\ProvidesPackage{endnotes}[2020-01-02 endnotes package]
 
 \@definecounter{endnote}
 \def\theendnote{\@arabic\c@endnote}
