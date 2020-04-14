@@ -190,7 +190,7 @@ by itself will work.)
 Endnotes use the following parameters, similar to those relating
 to footnotes:
 %
-\begin{labeling}[~:]{\cmd{\@makeentext}\marg{note}}
+\begin{labeling}[~:]{\cmd{\@endnotetext}\marg{note}}
   \item[\cmd{\enotesize}] Size-changing command for endnotes.
 
   \item[\cmd{\theendnote}] In usual \LaTeX\ style, produces the endnote number.
@@ -204,7 +204,7 @@ to footnotes:
   \item[\cmd{\makeenmark}] A macro to generate the endnote marker from  \cmd{\theenmark}.
     The default definition is \verb+\hbox{$^\theenmark$}+.
 
-  \item[\cmd{\@makeentext}\marg{note}]
+  \item[\cmd{\@endnotetext}\marg{note}]
     Must produce the actual endnote, using \cmd{\theenmark} as the mark
     of the endnote and \meta{note} as the text.  It is called when effectively
     inside a \cmd{\parbox}, with $\cmd{\hsize} = \cmd{\columnwidth}$.  For example, it might
