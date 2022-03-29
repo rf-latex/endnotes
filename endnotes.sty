@@ -4,10 +4,10 @@
 %       *              ENDNOTES                *
 %       ****************************************
 %
-%  Date of this version: 02 January 2020.
+%  Date of this version: 29 March 2022.
 %
 %% Copyright 2002 John Lavagnino
-%% Copyright 2019-2020 LaTeX3 Project
+%% Copyright 2019-2022 LaTeX3 Project
 %%
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.2
@@ -260,7 +260,7 @@
 %       ****************************************
 %
 
-\ProvidesPackage{endnotes}[2020-04-14 endnotes package]
+\ProvidesPackage{endnotes}[2022-03-29 endnotes package]
 
 \@definecounter{endnote}
 \def\theendnote{\@arabic\c@endnote}
@@ -363,9 +363,6 @@
      \@ifnextchar [\@xendnotenext
        {\protected@xdef\@theenmark{\theendnote}%
     \@endnotetext}}
-
-\def\@xendnotenext[#1]{\begingroup \c@endnote=#1\relax
-   \xdef\@theenmark{\theendnote}\endgroup \@endnotetext}
 
 \def\@xendnotenext[#1]{%
   \begingroup
